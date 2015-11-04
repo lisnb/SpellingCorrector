@@ -1,23 +1,28 @@
 #include "spellingcorrector.h"
 
+#include <algorithm>
+#include <ctime>
 #include <iostream>
 #include <string>
 #include <unordered_set>
 
+#include "edit.h"
+
 using std::cout;
 using std::endl;
 
-std::unordered_set<std::string> Word1Edit(std::string word)
-{
-    std::unordered_set<std::string> words;
-    return words;
-}
-
 int main()
 {
-    std::string filename = "C:/Projects/Cpp/SpellingCorrector/data/count_big.txt";
-    SpellingCorrector corrector(filename);
-    cout << corrector.GetWordNum() << endl;
+    clock_t start = clock();
+
+//    std::string filename = "C:/Projects/Cpp/SpellingCorrector/data/count_big.txt";
+//    SpellingCorrector corrector(filename);
+//    cout << corrector.GetWordNum() << endl;
+
+//    cout << Word2Edit("aasdgfhdgfsh").size() << endl;
+    Word2Edit("aasdgfhdgfsh");
+
+    cout<< 1000 * double(clock() - start) / CLK_TCK << "ms" << endl;
     return 0;
 }
 

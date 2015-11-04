@@ -8,7 +8,7 @@
 
 const int kBufferSize = 1024;
 
-SpellingCorrector::SpellingCorrector(std::string filename)
+SpellingCorrector::SpellingCorrector(const std::string &filename)
 {
     std::ifstream fin(filename);
     char buffer[kBufferSize];
@@ -36,8 +36,5 @@ SpellingCorrector::~SpellingCorrector()
 
 }
 
-size_t SpellingCorrector::GetWordNum()
-{
-    return this->word_count_.size();
-}
+
 

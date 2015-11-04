@@ -5,11 +5,13 @@ CONFIG -= qt
 CONFIG += c++11
 
 SOURCES += main.cpp \
-    spellingcorrector.cpp
+    spellingcorrector.cpp \
+    edit.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
 
 HEADERS += \
-    spellingcorrector.h
+    spellingcorrector.h \
+    edit.h
 
