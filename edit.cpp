@@ -47,11 +47,11 @@ std::unordered_set<std::string> Word1Edit(const std::string &error)
 std::unordered_set<std::string> Word2Edit(const std::string &error)
 {
     std::unordered_set<std::string> words2;
-    std::unordered_set<std::string> tmp;
+    std::unordered_set<std::string> tmp_words2;
     for (const auto &word1 : Word1Edit(error))
     {
-        tmp = Word1Edit(word1);
-        for (const auto &word : tmp)
+        tmp_words2 = Word1Edit(word1);
+        for (const auto &word : tmp_words2)
         {
             words2.insert(word);
         }
