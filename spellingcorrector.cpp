@@ -9,12 +9,10 @@
 
 #include "edit.h"
 
-const int kBufferSize = 1024;
-
 SpellingCorrector::SpellingCorrector(const std::string &train_file)
 {
     std::ifstream fin(train_file);
-    char buffer[kBufferSize];
+    std::string buffer;
     if (!fin.is_open())
     {
         std::cerr << "Error opening file" << std::endl;
@@ -25,8 +23,8 @@ SpellingCorrector::SpellingCorrector(const std::string &train_file)
     size_t count;
     while (!fin.eof())
     {
-        fin.getline(buffer, kBufferSize);
-        if (buffer[0] == '\0') continue;
+        getline(fin, buffer);
+        if (buffer.empty()) continue;
         ss << buffer;
         ss >> word >> count;
         this->word_count_[word] = count;

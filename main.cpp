@@ -3,8 +3,10 @@
 #include <ctime>
 #include <fstream>
 #include <iostream>
+#include <random>
 #include <string>
 #include <sstream>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -13,21 +15,33 @@
 using std::cout;
 using std::endl;
 
+std::unordered_set<int> GenerateRandoms(size_t num, int lower, int upper)
+{
+    std::unordered_set<int> randoms;
+    std::default_random_engine e1(std::time(0));
+    std::uniform_int_distribution<int> uniform_dist(lower, upper);
+    while (randoms.size() < num)
+    {
+        randoms.insert(uniform_dist(e1));
+    }
+    return randoms;
+}
+
 int main()
 {
     clock_t start = clock();
 
     std::string train_file = "C:/Projects/Cpp/SpellingCorrector/data/count_big.txt";
-    std::string test_file = "C:/Projects/Cpp/SpellingCorrector/data/spell-errors.txt";
+    std::string test_file = "C:/Projects/Cpp/SpellingCorrector/data/test2.txt";
 
     SpellingCorrector corrector(train_file);
-    //    cout << corrector.GetWordNum() << endl;
-    //    cout << Word2Edit("something").size() << endl;
-    //    cout << corrector.Correct("lin") << endl;
+//    cout << corrector.GetWordNum() << endl;
+//    cout << Word2Edit("play_grood").size() << endl;
+//    cout << corrector.Correct("play_grood") << endl;
 
     std::vector<std::pair<std::string, std::string>> instances;
     std::ifstream fin(test_file);
-    char buffer[4096];
+    std::string buffer;
     if (!fin.is_open())
     {
         std::cerr << "Error opening file" << std::endl;
@@ -40,9 +54,9 @@ int main()
     while (!fin.eof())
     {
         ++count;
-        fin.getline(buffer, 4096);
+        getline(fin, buffer);
+        if (buffer.empty()) continue;
         ss << buffer;
-        if (buffer[0] == '\0') continue;
         ss >> word;
         word.erase(word.find(':'));
         while (!ss.eof())
@@ -57,16 +71,22 @@ int main()
     fin.close();
 
     size_t right = 0;
-    for (int i = 1000; i < 1100; ++i)
+    size_t total = instances.size();
+    for (size_t i = 0; i < instances.size(); ++i)
     {
         std::string answer = corrector.Correct(instances[i].second);
-        if (answer == instances[i].first) ++right;
+        cout << instances[i].second << "\t"
+             << answer << "\t"
+             << instances[i].first << endl;
+        if (answer == instances[i].first)
+            ++right;
     }
-    cout << "total: " << 100
-         << "\tright: " << right
-         << "\twrong: " << 100 - right
+    cout << "Total: " << total
+         << "\tRight: " << right
+         << "\tWrong: " << total - right
          << endl;
 
+    cout << "Accuracy: " << int(100.0 * right / total) << "%" << endl;
 
     cout<< 1000 * double(clock() - start) / CLOCKS_PER_SEC << "ms" << endl;
     return 0;
